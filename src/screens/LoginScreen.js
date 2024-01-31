@@ -54,7 +54,7 @@ const LoginScreen = ({ navigation }) => {
         onPress={handleSignUpPress}
         style={[styles.signUpButton, isPressed && styles.signUpButtonPressed]}
       >
-        <Text style={[styles.signUpLink, isPressed && styles.signUpLinkPressed]}>SignUp</Text>
+        <Text style={[styles.signUpLink, isPressed && styles.signUpLinkPressed]}>New User? SignUp</Text>
       </TouchableOpacity>
     </View>
   );
@@ -76,14 +76,14 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     alignItems: 'center',
   },
-  signUpButtonPressed: {
-    // Example: Change the background color when pressed
-    backgroundColor: 'lightgray',
-  },
+  // signUpButtonPressed: {
+  //   // Example: Change the background color when pressed
+  //   backgroundColor: 'lightgray',
+  // },
   signUpLink: {
     color: 'blue',
     textAlign: 'center',
-    marginTop: 10,
+    marginTop: 1,
     fontSize: 16,
   },
   signUpLinkPressed: {

@@ -1,12 +1,10 @@
-// AuthButton.js
-
 import React from 'react';
 import { TouchableOpacity, Text, StyleSheet } from 'react-native';
 
-const AuthButton = ({ onPress, title }) => {
+const AuthButton = ({ onPress, title, buttonStyle, textStyle }) => {
   return (
-    <TouchableOpacity style={styles.buttonContainer} onPress={onPress}>
-      <Text style={styles.buttonText}>{title}</Text>
+    <TouchableOpacity style={[styles.buttonContainer, buttonStyle]} onPress={onPress}>
+      <Text style={[styles.buttonText, textStyle]}>{title}</Text>
     </TouchableOpacity>
   );
 };
@@ -14,11 +12,11 @@ const AuthButton = ({ onPress, title }) => {
 const styles = StyleSheet.create({
   buttonContainer: {
     backgroundColor: '#007BFF', // Change to your preferred button color
-    paddingVertical: 15,
+    paddingVertical:5,
     paddingHorizontal: 20,
     borderRadius: 5,
     alignItems: 'center',
-    marginTop: 10,
+    marginTop: 1,
   },
   buttonText: {
     color: 'white',

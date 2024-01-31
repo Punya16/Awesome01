@@ -1,16 +1,32 @@
-// SignupScreen.js
-
 import React, { useState } from 'react';
-import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
-import AuthForm from '../components/AuthForm';
+import { View, TextInput, TouchableOpacity, Text, KeyboardAvoidingView, Platform, ActivityIndicator } from 'react-native';
+import AuthButton from '../components/AuthButton';
 import authService from '../services/authService';
 
 const SignupScreen = ({ navigation }) => {
-  const [isPressed, setIsPressed] = useState(false);
+  const [firstName, setFirstName] = useState('');
+  const [middleName, setMiddleName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
-  const handleSignup = async (userData) => {
+  const handleSignup = async () => {
     try {
-      const token = await authService.signup(userData);
+      setLoading(true);
+      setError('');
+
+      // Implement your signup logic (e.g., calling authService.signup)
+      const token = await authService.signup({
+        firstName,
+        middleName,
+        lastName,
+        email,
+        phone,
+        password,
+      });
 
       // Handle token, navigate, or perform any other actions based on your requirements
       if (token) {
@@ -25,32 +41,42 @@ const SignupScreen = ({ navigation }) => {
       }
     } catch (error) {
       console.error('Signup failed:', error.message);
-
-      // Handle signup error
-      // You might want to display an alert or provide user feedback
+      setError('Signup failed. Please check your information and try again.');
+    } finally {
+      setLoading(false);
     }
   };
 
+  const navigateToLogin = () => {
+    navigation.navigate('Login'); // Use the correct screen name you defined in your navigation stack
+  };
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Sign Up</Text>
-      <AuthForm onSubmit={handleSignup} buttonText="Sign Up" />
-    </View>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={{ flex: 1, justifyContent: 'center', paddingHorizontal: 16 }}
+    >
+      <TextInput placeholder="First Name" value={firstName} onChangeText={setFirstName} />
+      <TextInput placeholder="Middle Name" value={middleName} onChangeText={setMiddleName} />
+      <TextInput placeholder="Last Name" value={lastName} onChangeText={setLastName} />
+      <TextInput placeholder="Email" value={email} onChangeText={setEmail} />
+      <TextInput placeholder="Phone" value={phone} onChangeText={setPhone} />
+      <TextInput placeholder="Password" secureTextEntry value={password} onChangeText={setPassword} />
+
+      <AuthButton title={loading ? "Signing Up..." : "Signup"} onPress={handleSignup} disabled={loading} />
+
+      {loading && <ActivityIndicator size="large" color="blue" />}
+      
+      {error ? <Text style={{ textAlign: 'center', color: 'red', marginTop: 10 }}>{error}</Text> : null}
+
+      {/* Link or button to navigate back to LoginScreen */}
+      <TouchableOpacity onPress={navigateToLogin}>
+        <Text style={{ textAlign: 'center', color: 'blue', marginTop: 10 }}>
+          Already have an account? Login here
+        </Text>
+      </TouchableOpacity>
+    </KeyboardAvoidingView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    paddingHorizontal: 16,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
-    textAlign: 'center',
-  },
-});
 
 export default SignupScreen;
