@@ -1,6 +1,9 @@
+// LoginScreen.js
 import React, { useState } from 'react';
 import { View, StyleSheet, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
 import AuthForm from '../components/AuthForm';
+import AuthButton from '../components/AuthButton'; // Import AuthButton
+
 import authService from '../services/authService';
 
 const LoginScreen = ({ navigation }) => {
@@ -49,12 +52,9 @@ const LoginScreen = ({ navigation }) => {
 
       {error ? <Text style={styles.errorText}>{error}</Text> : null}
 
-      {/* SignUp button/link */}
-      <TouchableOpacity
-        onPress={handleSignUpPress}
-        style={[styles.signUpButton, isPressed && styles.signUpButtonPressed]}
-      >
-        <Text style={[styles.signUpLink, isPressed && styles.signUpLinkPressed]}>New User? SignUp</Text>
+      {/* Use TouchableOpacity to make it act as a link */}
+      <TouchableOpacity onPress={handleSignUpPress}>
+        <Text style={styles.signUpLink}>New User? SignUp</Text>
       </TouchableOpacity>
     </View>
   );
@@ -80,12 +80,6 @@ const styles = StyleSheet.create({
   //   // Example: Change the background color when pressed
   //   backgroundColor: 'lightgray',
   // },
-  signUpLink: {
-    color: 'blue',
-    textAlign: 'center',
-    marginTop: 1,
-    fontSize: 16,
-  },
   signUpLinkPressed: {
     // Example: Change the text color when pressed
     color: 'darkblue',
@@ -94,6 +88,13 @@ const styles = StyleSheet.create({
     color: 'red',
     textAlign: 'center',
     marginTop: 10,
+  },
+  signUpLink: {
+    color: 'blue',
+    textAlign: 'center',
+    marginTop: 10,
+    fontSize: 16,
+    textDecorationLine: 'underline', // Add underline style to make it look like a link
   },
 });
 
