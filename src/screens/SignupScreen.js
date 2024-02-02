@@ -5,8 +5,8 @@ import authService from '../services/authService';
 
 const SignupScreen = ({ navigation }) => {
   const [firstName, setFirstName] = useState('');
-  const [middleName, setMiddleName] = useState('');
-  const [lastName, setLastName] = useState('');
+  //const [middleName, setMiddleName] = useState('');
+  //const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
@@ -21,8 +21,8 @@ const SignupScreen = ({ navigation }) => {
       // Implement your signup logic (e.g., calling authService.signup)
       const token = await authService.signup({
         firstName,
-        middleName,
-        lastName,
+        //middleName,
+        //lastName,
         email,
         phone,
         password,
@@ -57,8 +57,8 @@ const SignupScreen = ({ navigation }) => {
       style={{ flex: 1, justifyContent: 'center', paddingHorizontal: 16 }}
     >
       <TextInput placeholder="First Name" value={firstName} onChangeText={setFirstName} />
-      <TextInput placeholder="Middle Name" value={middleName} onChangeText={setMiddleName} />
-      <TextInput placeholder="Last Name" value={lastName} onChangeText={setLastName} />
+      {/* <TextInput placeholder="Middle Name" value={middleName} onChangeText={setMiddleName} />
+      <TextInput placeholder="Last Name" value={lastName} onChangeText={setLastName} /> */}
       <TextInput placeholder="Email" value={email} onChangeText={setEmail} />
       <TextInput placeholder="Phone" value={phone} onChangeText={setPhone} />
       <TextInput placeholder="Password" secureTextEntry value={password} onChangeText={setPassword} />

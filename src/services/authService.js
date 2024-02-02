@@ -1,9 +1,11 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 const BASE_URL = 'https://api-w3qcv3aiha-el.a.run.app';
 
 const authService = {
   login: async (email, password) => {
     try {
-      const response = await fetch(`${BASE_URL}/login`, {
+      const response = await fetch(`${BASE_URL}/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -17,7 +19,12 @@ const authService = {
       }
 
       const data = await response.json();
-      return data.token;
+      const token = data.token;
+
+      // Store the token securely
+      await authService.storeToken(token);
+
+      return token;
     } catch (error) {
       throw new Error('Login failed');
     }
@@ -25,7 +32,7 @@ const authService = {
 
   signup: async (userData) => {
     try {
-      const response = await fetch(`${BASE_URL}/signup`, {
+      const response = await fetch(`${BASE_URL}/auth/signup`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -39,28 +46,32 @@ const authService = {
       }
 
       const data = await response.json();
-      return data.token;
+      const token = data.token;
+
+      // Store the token securely
+      await authService.storeToken(token);
+
+      return token;
     } catch (error) {
       throw new Error('Signup failed');
     }
   },
 
-  // You can add other helper functions, such as storing and retrieving tokens, here
-
-  // Example: Storing token using AsyncStorage
   storeToken: async (token) => {
-    // Implement your token storage logic here (e.g., AsyncStorage)
-    // You may need to install AsyncStorage using 'npm install @react-native-async-storage/async-storage'
-    // Replace the following line with your actual storage logic
-    await AsyncStorage.setItem('token', token);
+    try {
+      await AsyncStorage.setItem('token', token);
+    } catch (error) {
+      throw new Error('Token storage failed');
+    }
   },
 
-  // Example: Retrieving token from AsyncStorage
   retrieveToken: async () => {
-    // Implement your token retrieval logic here (e.g., AsyncStorage)
-    // Replace the following line with your actual retrieval logic
-    const token = await AsyncStorage.getItem('token');
-    return token;
+    try {
+      const token = await AsyncStorage.getItem('token');
+      return token;
+    } catch (error) {
+      throw new Error('Token retrieval failed');
+    }
   },
 };
 
